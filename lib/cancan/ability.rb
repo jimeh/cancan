@@ -40,7 +40,7 @@ module CanCan
     #     assert ability.cannot?(:destroy, Project.new)
     #   end
     # 
-    def can?(action, noun)
+    def can?(action, noun = nil)
       (@can_definitions || []).reverse.each do |base_behavior, defined_action, defined_noun, defined_block|
         defined_actions = expand_actions(defined_action)
         defined_nouns = [defined_noun].flatten
@@ -103,7 +103,7 @@ module CanCan
     #   can :read, :stats
     #   can? :read, :stats # => true
     # 
-    def can(action, noun, &block)
+    def can(action, noun = :all, &block)
       @can_definitions ||= []
       @can_definitions << [true, action, noun, block]
     end
@@ -120,7 +120,7 @@ module CanCan
     #     product.invisible?
     #   end
     # 
-    def cannot(action, noun, &block)
+    def cannot(action, noun = :all, &block)
       @can_definitions ||= []
       @can_definitions << [false, action, noun, block]
     end
